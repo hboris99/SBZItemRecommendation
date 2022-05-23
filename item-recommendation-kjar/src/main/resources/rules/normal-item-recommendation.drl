@@ -1,0 +1,16 @@
+package rules
+import com.sbz.itemrecommendationwar.Model.Item;
+import com.sbz.itemrecommendationwar.Model.Player;
+import com.sbz.itemrecommendationwar.Model.PlayerClass;
+
+
+
+rule "Recommend adc items that are not mythic"
+	when 
+		$i: Item(playerClass == PlayerClass.MARKSMAN, $i.isMythic() == false)
+		$p: Player(recommendedItems.empty != true, playerClass == PlayerClass.MARKSMAN, $p.itemIsNotRecommended($i.getName()) == true)
+	then
+		System.out.println("Recommending the regular items for player" + $p.getName() + " the recommended item is: " + $i.getName());
+		System.out.println("Is the item already recommended: " + $p.itemIsNotRecommended($i.getName()));
+ 		modify ($p) {addRecommendedItem($i)};
+ end

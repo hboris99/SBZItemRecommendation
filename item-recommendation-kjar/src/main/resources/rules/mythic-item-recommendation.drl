@@ -5,6 +5,7 @@ import com.sbz.itemrecommendationwar.Model.PlayerClass;
 
 
 rule "Recommend mythic adc item"
+agenda-group "mythic"
 	when
 		$i: Item(playerClass == PlayerClass.MARKSMAN, $i.isMythic() == true)
 		$p: Player(recommendedItems.empty != true, playerClass == PlayerClass.MARKSMAN, $p.itemIsNotRecommended($i.getName()) == true)

@@ -1,46 +1,29 @@
 package com.sbz.itemrecommendationwar.Model;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class Item {
-	
-	private int id;
-	private PlayerClass playerClass;
-	private String name;
+public class PlayerStats {
 	private int healthPoints;
 	private int mana;
 	private double armourPenetration;
 	private int lethality;
-	private SpecialPassive specialPassive;
+	private List<SpecialPassive> specialPassive = new ArrayList();
 	private int attackDamage;
 	private int abilityPower;
 	private int armour;
 	private int magicResist;
 	private double criticalStrikeChance;
-	private boolean isStarting;
-	private int price;
-	private int lifeSteal;
-	private int movementSpeed;
-	private double attackSpeed;
-	private boolean isMythic;
 	
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Item() {}
-	
-	public Item(int id, PlayerClass playerClass, String name, int healthPoints, int mana, double armourPenetration,
-			int lethality, SpecialPassive specialPassive, int attackDamage, int abilityPower, int armour,
-			int magicResist, double criticalStrikeChance, boolean isStarting, int price, int lifeSteal,
-			int movementSpeed, double attackSpeed, boolean isMythic) {
+	public PlayerStats() {
 		super();
-		this.id = id;
-		this.playerClass = playerClass;
-		this.name = name;
+		// TODO Auto-generated constructor stub
+	}
+	public PlayerStats(int healthPoints, int mana, double armourPenetration, int lethality,
+			List<SpecialPassive> specialPassive, int attackDamage, int abilityPower, int armour, int magicResist,
+			double criticalStrikeChance, int lifeSteal, int movementSpeed,
+			double attackSpeed) {
+		super();
 		this.healthPoints = healthPoints;
 		this.mana = mana;
 		this.armourPenetration = armourPenetration;
@@ -51,36 +34,10 @@ public class Item {
 		this.armour = armour;
 		this.magicResist = magicResist;
 		this.criticalStrikeChance = criticalStrikeChance;
-		this.isStarting = isStarting;
-		this.price = price;
+	
 		this.lifeSteal = lifeSteal;
 		this.movementSpeed = movementSpeed;
 		this.attackSpeed = attackSpeed;
-		this.isMythic = isMythic;
-	}
-	public Item(String string) {
-		this.name = string;
-	}
-
-	public boolean isMythic() {
-		return isMythic;
-	}
-
-	public void setMythic(boolean isMythic) {
-		this.isMythic = isMythic;
-	}
-
-	public PlayerClass getPlayerClass() {
-		return playerClass;
-	}
-	public void setPlayerClass(PlayerClass playerClass) {
-		this.playerClass = playerClass;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public int getHealthPoints() {
 		return healthPoints;
@@ -106,12 +63,15 @@ public class Item {
 	public void setLethality(int lethality) {
 		this.lethality = lethality;
 	}
-	public SpecialPassive getSpecialPassive() {
+	public List<SpecialPassive> getSpecialPassive() {
 		return specialPassive;
 	}
-	public void setSpecialPassive(SpecialPassive specialPassive) {
+	public void setSpecialPassive(List<SpecialPassive> specialPassive) {
 		this.specialPassive = specialPassive;
 	}
+	public void addSpecialPassive(SpecialPassive specialPassive) {
+		this.specialPassive.add(specialPassive);
+		}
 	public int getAttackDamage() {
 		return attackDamage;
 	}
@@ -142,18 +102,7 @@ public class Item {
 	public void setCriticalStrikeChance(double criticalStrikeChance) {
 		this.criticalStrikeChance = criticalStrikeChance;
 	}
-	public boolean isStarting() {
-		return isStarting;
-	}
-	public void setStarting(boolean isStarting) {
-		this.isStarting = isStarting;
-	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
+	
 	public int getLifeSteal() {
 		return lifeSteal;
 	}
@@ -172,5 +121,8 @@ public class Item {
 	public void setAttackSpeed(double attackSpeed) {
 		this.attackSpeed = attackSpeed;
 	}
-	
+	private int lifeSteal;
+	private int movementSpeed;
+	private double attackSpeed;
+
 }

@@ -13,12 +13,22 @@ public class Player {
 	private List<Item> recommendedItems = new ArrayList<>();
 	private boolean isEnemy;
 	private String name;
+	private PlayerStats stats;
 	public Player() {
 		
 	}
 	
-	public Player(PlayerClass playerClass, List<Item> boughtItems, int currentGold, int totalGold, List<Item> recommededItems, boolean isEnemy, String name ) {
+	public PlayerStats getStats() {
+		return stats;
+	}
+
+	public void setStats(PlayerStats stats) {
+		this.stats = stats;
+	}
+
+	public Player(PlayerClass playerClass, List<Item> boughtItems, int currentGold, int totalGold, List<Item> recommededItems, boolean isEnemy, String name, PlayerStats stats ) {
 		super();
+		this.stats = stats;
 		this.playerClass = playerClass;
 		this.boughtItems = boughtItems;
 		this.currentGold = currentGold;
@@ -28,7 +38,10 @@ public class Player {
 		this.name = name;
 	}
 	
-	
+	public void addPurchasedItem(Item item) {
+		
+		this.boughtItems.add(item);
+	}
 	public String getName() {
 		return name;
 	}

@@ -5,6 +5,7 @@ import com.sbz.itemrecommendationwar.Model.PlayerClass;
 
 
 rule "Starter item tank"
+agenda-group "starter"
 	when
 	    $p: Player( recommendedItems.empty == true, playerClass == PlayerClass.TANK)
 		$i: Item( name == "Dorans Shield")
@@ -15,6 +16,8 @@ rule "Starter item tank"
 end
 		
 rule "Starter item marksman"
+agenda-group "starter"
+
 	when
 	    $p: Player( recommendedItems.empty == true, playerClass == PlayerClass.MARKSMAN)
 	    $i: Item( name == "Dorans sword")

@@ -1,7 +1,11 @@
 package com.sbz.itemrecommendationwar.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -46,7 +50,6 @@ public class PlayerService{
 //		kieSession.insert(p5);
 		
 		Player p = playerRepository.findByName("Teodor");
-	    System.out.println(p.getName());
 		kieSession.insert(p);
         kieSession.getAgenda().getAgendaGroup("starter").setFocus();
 		kieSession.fireAllRules();
@@ -62,7 +65,6 @@ public class PlayerService{
 			kieSession.insert(i);
 		}
 		Player p = playerRepository.findByName("Teodor");
-	    System.out.println(p.getName());
 		kieSession.insert(p);
         kieSession.getAgenda().getAgendaGroup("mythic").setFocus();
 		kieSession.fireAllRules();
@@ -81,7 +83,6 @@ public class PlayerService{
 			kieSession.insert(i);
 		}
 		Player p = playerRepository.findByName("Teodor");
-	    System.out.println(p.getName());
 		kieSession.insert(p);
         kieSession.getAgenda().getAgendaGroup("normal").setFocus();
 		kieSession.fireAllRules();
@@ -90,44 +91,69 @@ public class PlayerService{
 	
 	public Player purchaseItem(int itemId) {
 		Player p = playerRepository.findByName("Teodor");
-		KieSession kieSession = kieContainer.newKieSession();
-		String var = determineDominantEnemyStats();
-		System.out.println(var);
-		kieSession.setGlobal("dominantStat", var);
-		for(Item i :itemRepository.findAll()) {
+		 KieSession kieSession = kieContainer.newKieSession();
+		 kieSession.insert(p);
+		 List<Player> enemies = playerRepository.findEnemy();
+		 kieSession.insert(enemies);
+		 List<Item> allItems = itemRepository.findAll();
+		for(Item i :p.getRecommendedItems()) {
 			if(i.getId() == itemId) {
 				p.addPurchasedItem(i);
-				updatePlayerStats(p, i );
+				updatePlayerStats(p, i , enemies);
 				
 			}
+		}
+		for(Item i : allItems) {
 			kieSession.insert(i);
-
 		}
 		
-		Player enemies = playerRepository.findEnemy().get(0);
-		kieSession.insert(p);
-		kieSession.insert(enemies);
-		 kieSession.getAgenda().getAgendaGroup("normal").setFocus();
+		 kieSession.getAgenda().getAgendaGroup("first-purchase").setFocus();
+			
 			kieSession.fireAllRules();
 		return p;
 	}
-	public String determineDominantEnemyStats() {
-		Player enemies = playerRepository.findEnemy().get(0);
-		enemies.addPurchasedItem(new Item(8, PlayerClass.MARKSMAN, "Infinity Edge", 0, 0, 0.0, 0, SpecialPassive.INCREASE_CRIT, 65, 0, 
-				   0, 0, 0.2, false, 3200, 0, 0, 0.0, false));
-		
-			int abilityPower = enemies.getStats().getAbilityPower();
-			System.out.print(abilityPower);
-			int attackDamage = enemies.getStats().getAttackDamage();
-			System.out.print(attackDamage);
+	
+	public void recommendUpdatedItems(Player p) {
+		 KieSession kieSession = kieContainer.newKieSession();
 
-			if(attackDamage > abilityPower) {
-				return "atkdmg";
+	}
+	public String determineDominantEnemyStats(List<Player> enemies) {
+		List<String> dominantStatList = new ArrayList<>();
+		Map<String, Integer> dominantStats = new HashMap<>();
+		String stat = "";
+		Integer count = 0;
+		
+		for(Player enemy: enemies) {
+			for(Item i : enemy.getBoughtItems()) {
+				updateEnemyStats(enemy, i);
+				dominantStatList.add(i.getDominantStat());
 			}
-			return "ability";
+		}
+		for(String stat1 : dominantStatList) {
+			count = dominantStats.get(stat1);
+			 if (count == null) {
+	                count = 0;
+	            }
+				dominantStats.put(stat1, count + 1);
+		}
+		for(Map.Entry<String, Integer> entry : dominantStats.entrySet()) {
+			if(entry.getValue() > count) {
+				count = entry.getValue();
+				stat = entry.getKey();
+			}
+		}
+		switch(stat) {
+		case "atkDmg":
+			return "armour";
+		case "abilityPower":
+			return "magicResist";
+		case "atkSpeed":
+			return "hp";
+		}
+			return stat;
 		
 	}
-	private void updatePlayerStats(Player p, Item i) {
+	private void updateEnemyStats(Player p, Item i) {
 		PlayerStats stats = p.getStats();
 		stats.setAbilityPower( stats.getAbilityPower() + i.getAbilityPower());
 		stats.setArmour(stats.getArmour() + i.getArmour());
@@ -143,5 +169,23 @@ public class PlayerService{
 		stats.setMovementSpeed(stats.getMovementSpeed() + i.getMovementSpeed());
 		stats.addSpecialPassive(i.getSpecialPassive());
 		p.setStats(stats);
+	}
+	private void updatePlayerStats(Player p, Item i, List<Player> enemy) {
+		PlayerStats stats = p.getStats();
+		stats.setAbilityPower( stats.getAbilityPower() + i.getAbilityPower());
+		stats.setArmour(stats.getArmour() + i.getArmour());
+		stats.setArmourPenetration(stats.getArmourPenetration() + i.getArmourPenetration());
+		stats.setAttackDamage(stats.getAttackDamage()+ i.getAttackDamage());
+		stats.setAttackSpeed(stats.getAttackSpeed() + i.getAttackSpeed());
+		stats.setCriticalStrikeChance(stats.getCriticalStrikeChance() + i.getCriticalStrikeChance());
+		stats.setHealthPoints(stats.getHealthPoints() + i.getHealthPoints());
+		stats.setLethality(stats.getLethality() + i.getLethality());
+			stats.setLifeSteal(stats.getLifeSteal() + i.getLifeSteal());
+		stats.setMagicResist(stats.getMagicResist() + i.getMagicResist());
+		stats.setMana(stats.getMana() + i.getMana());
+		stats.setMovementSpeed(stats.getMovementSpeed() + i.getMovementSpeed());
+		stats.addSpecialPassive(i.getSpecialPassive());
+		p.setStats(stats);
+		p.setStatToItemize(determineDominantEnemyStats(enemy));
 	}
 }

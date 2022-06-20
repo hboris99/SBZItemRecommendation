@@ -22,9 +22,18 @@ public class Item {
 	private int movementSpeed;
 	private double attackSpeed;
 	private boolean isMythic;
+	public String dominantStat;
 	
 	public int getId() {
 		return id;
+	}
+
+	public String getDominantStat() {
+		return dominantStat;
+	}
+
+	public void setDominantStat(String dominantStat) {
+		this.dominantStat = dominantStat;
 	}
 
 	public void setId(int id) {
@@ -36,9 +45,10 @@ public class Item {
 	public Item(int id, PlayerClass playerClass, String name, int healthPoints, int mana, double armourPenetration,
 			int lethality, SpecialPassive specialPassive, int attackDamage, int abilityPower, int armour,
 			int magicResist, double criticalStrikeChance, boolean isStarting, int price, int lifeSteal,
-			int movementSpeed, double attackSpeed, boolean isMythic) {
+			int movementSpeed, double attackSpeed, boolean isMythic, String dominantStat) {
 		super();
 		this.id = id;
+		this.dominantStat = dominantStat;
 		this.playerClass = playerClass;
 		this.name = name;
 		this.healthPoints = healthPoints;

@@ -14,6 +14,7 @@ public class Player {
 	private boolean isEnemy;
 	private String name;
 	private PlayerStats stats;
+	private String statToItemize;
 	public Player() {
 		
 	}
@@ -26,7 +27,7 @@ public class Player {
 		this.stats = stats;
 	}
 
-	public Player(PlayerClass playerClass, List<Item> boughtItems, int currentGold, int totalGold, List<Item> recommededItems, boolean isEnemy, String name, PlayerStats stats ) {
+	public Player(PlayerClass playerClass, List<Item> boughtItems, int currentGold, int totalGold, List<Item> recommededItems, boolean isEnemy, String name, PlayerStats stats, String statToItemize ) {
 		super();
 		this.stats = stats;
 		this.playerClass = playerClass;
@@ -36,8 +37,17 @@ public class Player {
 		this.recommendedItems = recommededItems;
 		this.isEnemy = isEnemy;
 		this.name = name;
+		this.statToItemize = statToItemize;
 	}
 	
+	public String getStatToItemize() {
+		return statToItemize;
+	}
+
+	public void setStatToItemize(String statToItemize) {
+		this.statToItemize = statToItemize;
+	}
+
 	public void addPurchasedItem(Item item) {
 		
 		this.boughtItems.add(item);

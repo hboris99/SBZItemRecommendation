@@ -10,7 +10,6 @@ agenda-group "mythic"
 		$i: Item(playerClass == PlayerClass.MARKSMAN, $i.isMythic() == true)
 		$p: Player(recommendedItems.empty != true, playerClass == PlayerClass.MARKSMAN, $p.itemIsNotRecommended($i.getName()) == true)
 	then 
-		System.out.println("Recommending the mythic items for player" + $p.getName() + " the recommended item is: " + $i.getName());
-		System.out.println("Is the item already recommended: " + $p.itemIsNotRecommended($i.getName()));
+		
  		modify ($p) {addRecommendedItem($i)};
 end

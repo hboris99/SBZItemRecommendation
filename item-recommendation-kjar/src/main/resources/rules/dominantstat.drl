@@ -1,0 +1,67 @@
+package rules
+import com.sbz.itemrecommendationwar.Model.Item;
+import com.sbz.itemrecommendationwar.Model.Player;
+import com.sbz.itemrecommendationwar.Model.PlayerClass;
+import java.util.Map;
+global java.util.Map frequency;
+
+rule "Determine enemy items for player"
+agenda-group "dominant-stat"
+no-loop true
+	when
+		$p: Player(isEnemy == false)
+		$enemies: List() from collect(Player(isEnemy == true))
+		$enemyItems: List() from accumulate(
+			$enemy: Player($listofItems: boughtItems) from $enemies;
+			collectList($listofItems)
+		)
+	
+	then
+		modify ($p) {setDrlEnemyItems($enemyItems)};
+		System.out.println("Ovo su enemy itemi" + $enemyItems);
+		System.out.println("Ovo su neprijatelji" + $enemies);
+		System.out.println("Ovo je player " + $p.getName());
+end
+
+rule "Determine stat to itemize adc"
+agenda-group "itemizing"
+	when 
+		$p : Player($items: enemyItems, isEnemy == false)
+		$marksman : Number($totalm : intValue) from accumulate(
+			Item(playerClass == PlayerClass.MARKSMAN) from $items, count(1))
+		$tank : Number($totalt : intValue) from accumulate(
+			Item(playerClass == PlayerClass.TANK) from $items, count(1))
+		$assasin: Number($totala : intValue) from accumulate(
+			Item(playerClass == PlayerClass.ASSASIN) from $items, count(1))
+		$mage : Number($totalma : intValue) from accumulate(
+			Item(playerClass == PlayerClass.MAGE) from $items, count(1))
+		$support : Number($totals : intValue) from accumulate(
+			Item(playerClass == PlayerClass.SUPPORT) from $items, count(1))
+		$fighter : Number($totalf : intValue) from accumulate(
+			Item(playerClass == PlayerClass.FIGHTER) from $items, count(1))
+		then
+		frequency.put($totalm,"marksman");
+		frequency.put($totalt,"tank");
+		frequency.put($totalma,"mage");
+		frequency.put($totala, "assasin");
+		frequency.put($totals,"support");
+		frequency.put($totalf,"fighter");
+		
+		System.out.println("Number of marksman items " + frequency);
+end
+
+rule "Suggest new items"
+agenda-group "itemizing"
+	when 
+		$a : Number($total : intValue) from accumulate(
+			Map.Entry($k: key, $v : value) from frequency.entrySet(),
+			max($k)
+		)		
+		$p: Player(isEnemy == false, statToItemize == "" || statToItemize != frequency.get($total))
+		
+	then 
+		modify ($p) {setStatToItemize(frequency.get($total))};
+		System.out.println(frequency);
+		System.out.println("Biggest stat " + frequency.get($total));
+		System.out.println("Key double "  + $total);
+end	

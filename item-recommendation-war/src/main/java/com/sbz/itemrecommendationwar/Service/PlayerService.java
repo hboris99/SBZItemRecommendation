@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
@@ -187,5 +188,40 @@ public class PlayerService{
 		stats.addSpecialPassive(i.getSpecialPassive());
 		p.setStats(stats);
 		p.setStatToItemize(determineDominantEnemyStats(enemy));
+	}
+	public List<Item> getEnemyItems() {
+		List<Player> enemies = playerRepository.findEnemy();
+		Player player = playerRepository.findByName("Teodor");
+		 List<Item> allItems = itemRepository.findAll();
+		 KieSession kieSession = kieContainer.newKieSession();
+		 kieSession.insert(player);
+		 for(Player p : enemies) {
+			 System.out.println(p);
+			 System.out.println(p.getName());
+
+			 kieSession.insert(p);
+		 }
+		 for(Item i : allItems) {
+			 kieSession.insert(i);
+		 }
+		 
+		 kieSession.getAgenda().getAgendaGroup("dominant-stat").setFocus();
+		 kieSession.fireAllRules();
+		 
+		 List<Item> flattened = player.getDrlEnemyItems().stream().flatMap(List::stream).collect(Collectors.toList());
+		 player.setEnemyItems(flattened);
+		 countItemTypes();
+		return player.getEnemyItems();
+	}
+	
+	public void countItemTypes() {
+		Player player = playerRepository.findByName("Teodor");
+		KieSession kieSession = kieContainer.newKieSession();
+		kieSession.insert(player);
+		Map<Integer,String> num = new HashMap<Integer,String>();
+		kieSession.setGlobal("frequency", num);
+		kieSession.getAgenda().getAgendaGroup("itemizing").setFocus();
+		kieSession.fireAllRules();
+		System.out.println(player.getStatToItemize());
 	}
 }

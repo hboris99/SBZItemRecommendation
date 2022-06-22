@@ -19,14 +19,4 @@ no-loop true
  		modify ($p) {addRecommendedItem($i)};
  end
  
- 
- rule "Next adc purchase"
- agenda-group "first-purchase"
- 	when
- 		$p: Player($ri: recommendedItems, playerClass == PlayerClass.MARKSMAN)
- 		$i: Item(playerClass == PlayerClass.MARKSMAN, $p.itemIsNotRecommended($i.getName()) == true, $p.statToItemize == $i.dominantStat)
- 		then
- 		System.out.println($p.getStatToItemize() + " is the stat to itemize");
-		System.out.println("PUCA JEr SETER NCE DA GA SEtuJE");
-		modify ($p) {addRecommendedItem($i)};
-end;
+

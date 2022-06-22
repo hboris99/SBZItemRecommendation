@@ -1,8 +1,11 @@
 package com.sbz.itemrecommendationwar.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,6 +48,11 @@ public class PlayerController {
 		for(Item i : playerService.findByName(p.getName()).getRecommendedItems())
 			System.out.println("These are the items recommended after a purchase: " + i.getName());
 		return new ResponseEntity<>(p, HttpStatus.OK);
+	}
+	@GetMapping(value = "/enemystat")
+	public ResponseEntity<List<Item>> getEnemyitems(){
+		List<Item> items = playerService.getEnemyItems();
+		return new ResponseEntity<>(items, HttpStatus.OK);
 	}
 	
 	

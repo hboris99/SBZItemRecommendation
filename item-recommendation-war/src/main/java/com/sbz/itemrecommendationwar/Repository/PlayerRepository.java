@@ -38,28 +38,28 @@ public class PlayerRepository {
 		Item locket = new Item(9, PlayerClass.MARKSMAN, "locket", 300, 0, 0.0, 0, SpecialPassive.BURN_ENEMIES, 0, 0, 
 				   50, 40, 0.0, false, 3400, 0, 0, 0.0, true, "resistance");
 		List<Item> p1Items = new ArrayList<>();
-		Player p1 = new Player(PlayerClass.MARKSMAN, p1Items,2800, 6200, new ArrayList<Item>(), true, "Boris", new PlayerStats(), "");
+		Player p1 = new Player(PlayerClass.MARKSMAN, p1Items,2800, 6200, new ArrayList<Item>(), true, "Boris", new PlayerStats(), "",new ArrayList<Item>(), new ArrayList< List<Item>>());
 		p1.addPurchasedItem(infinityEdge);
 		p1.addPurchasedItem(shieldBow);
 
 		List<Item> p2Items = new ArrayList<>();
-		Player p2 = new Player(PlayerClass.TANK, p2Items,3000, 6400, new ArrayList<Item>(), false, "Nikola", new PlayerStats(), "");
+		Player p2 = new Player(PlayerClass.TANK, p2Items,3000, 6400, new ArrayList<Item>(), true, "Nikola", new PlayerStats(), "",new ArrayList<Item>(), new ArrayList< List<Item>>());
 		p2.addPurchasedItem(sunfireCape);
 		p2.addPurchasedItem(doransSword);
 		enemyPlayers.add(p1);
 		enemyPlayers.add(p2);
 		
 		List<Item> p3Items = new ArrayList<>();
-		Player p3 = new Player(PlayerClass.MARKSMAN, p3Items,3000, 6400, new ArrayList<Item>(), false, "Perko", new PlayerStats(), "");
+		Player p3 = new Player(PlayerClass.MARKSMAN, p3Items,3000, 6400, new ArrayList<Item>(), false, "Perko", new PlayerStats(), "",new ArrayList<Item>(), new ArrayList< List<Item>>());
 		allyPlayers.add(p3);
 		
 		
 		List<Item> p4Items = new ArrayList<>();
-		Player p4 = new Player(PlayerClass.TANK, p4Items,450, 500, new ArrayList<Item>(), false, "Midbeast", new PlayerStats(), "");
+		Player p4 = new Player(PlayerClass.TANK, p4Items,450, 500, new ArrayList<Item>(), false, "Midbeast", new PlayerStats(), "",new ArrayList<Item>(), new ArrayList< List<Item>>());
 		enemyPlayers.add(p4);
 		
 		List<Item> p5Items = new ArrayList<>();
-		Player p5 = new Player(PlayerClass.MARKSMAN, p5Items,450, 500, new ArrayList<Item>(), false, "Teodor", new PlayerStats(), "");
+		Player p5 = new Player(PlayerClass.MARKSMAN, p5Items,450, 500, new ArrayList<Item>(), false, "Teodor", new PlayerStats(), "",new ArrayList<Item>(), new ArrayList< List<Item>>());
 		allyPlayers.add(p5);
 		
 		

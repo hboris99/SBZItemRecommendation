@@ -15,10 +15,28 @@ public class Player {
 	private String name;
 	private PlayerStats stats;
 	private String statToItemize;
+	private List<Item> enemyItems;
+	private List<List<Item>> drlEnemyItems;
 	public Player() {
 		
 	}
 	
+	public List<List<Item>> getDrlEnemyItems() {
+		return drlEnemyItems;
+	}
+
+	public void setDrlEnemyItems(List<List<Item>> drlEnemyItems) {
+		this.drlEnemyItems = drlEnemyItems;
+	}
+
+	public List<Item> getEnemyItems() {
+		return enemyItems;
+	}
+
+	public void setEnemyItems(List<Item> enemyItems) {
+		this.enemyItems = enemyItems;
+	}
+
 	public PlayerStats getStats() {
 		return stats;
 	}
@@ -27,7 +45,9 @@ public class Player {
 		this.stats = stats;
 	}
 
-	public Player(PlayerClass playerClass, List<Item> boughtItems, int currentGold, int totalGold, List<Item> recommededItems, boolean isEnemy, String name, PlayerStats stats, String statToItemize ) {
+	public Player(PlayerClass playerClass, List<Item> boughtItems, int currentGold, 
+			int totalGold, List<Item> recommededItems, boolean isEnemy, String name,
+			PlayerStats stats, String statToItemize, List<Item> enemyItems, List<List<Item>> drlEnemyItems ) {
 		super();
 		this.stats = stats;
 		this.playerClass = playerClass;
@@ -38,14 +58,16 @@ public class Player {
 		this.isEnemy = isEnemy;
 		this.name = name;
 		this.statToItemize = statToItemize;
+		this.enemyItems = enemyItems;
+		this.drlEnemyItems = drlEnemyItems;
 	}
 	
 	public String getStatToItemize() {
 		return statToItemize;
 	}
 
-	public void setStatToItemize(String statToItemize) {
-		this.statToItemize = statToItemize;
+	public void setStatToItemize(Object statToItemize) {
+		this.statToItemize = statToItemize.toString();
 	}
 
 	public void addPurchasedItem(Item item) {
@@ -60,7 +82,7 @@ public class Player {
 		this.name = name;
 	}
 
-	public boolean isEnemy() {
+	public boolean getIsEnemy() {
 		return isEnemy;
 	}
 

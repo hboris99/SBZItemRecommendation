@@ -8,7 +8,7 @@ agenda-group "genera-item-recommend"
 	when:
 		$p : Player(isEnemy == false, $stat: statToOptimize, $recommendedItems: recommendedItems)
 		$allItems: List() from Item()
-		$items: List from accumulate(
+		$items: List(size <= 5) from accumulate(
 			$i : Item(dominantStat == $stat) from $allItems,
 			collectToList($i)
 		)

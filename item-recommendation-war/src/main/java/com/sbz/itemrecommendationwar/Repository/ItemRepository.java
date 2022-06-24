@@ -3,7 +3,9 @@ import com.sbz.itemrecommendationwar.Model.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ItemRepository  {
 	private List<Item> allItems = new ArrayList<Item>();
 	public ItemRepository() {

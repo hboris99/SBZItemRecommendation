@@ -1,16 +1,26 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { RoleSelectComponent } from './role-select/role-select.component';
+import { AddPlayerComponent } from './add-player/add-player.component';
+import { AppRoutingModule } from './app-routing.module';
+import { MainScreenComponent } from './main-screen/main-screen.component';
+import { FormsModule }   from '@angular/forms';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    RoleSelectComponent
+    AddPlayerComponent,
+    MainScreenComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+        HttpClientModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]

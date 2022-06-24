@@ -140,5 +140,11 @@ public class PlayerService{
 		
 	}
 
+	public void update(Player p1) {
+
+		playerRepository.update(p1);
+		
+	}
+
 	
 }

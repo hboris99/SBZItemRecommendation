@@ -5,7 +5,8 @@ import java.util.List;
 
 import  com.sbz.itemrecommendationwar.Model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.stereotype.Repository;
+@Repository
 public class PlayerRepository {
 	
 	
@@ -88,6 +89,17 @@ public class PlayerRepository {
 
 	public void addEnemyPlayer(Player p) {
 		this.enemyPlayers.add(p);
+		
+	}
+
+	public Player update(Player p1) {
+		for(Player p : allyPlayers) {
+			if(p1.getName().equals(p.getName())) {
+				p = p1;
+				return p;
+			}
+		}
+		return null;
 		
 	}
 }

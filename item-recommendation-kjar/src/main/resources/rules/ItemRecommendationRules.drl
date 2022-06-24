@@ -3,15 +3,3 @@ import com.sbz.itemrecommendationwar.Model.Item;
 import com.sbz.itemrecommendationwar.Model.Player;
 import com.sbz.itemrecommendationwar.Model.PlayerClass;
 
-rule "Recommend next item"
-agenda-group "genera-item-recommend"
-	when:
-		$p : Player(isEnemy == false, $stat: statToOptimize, $recommendedItems: recommendedItems)
-		$allItems: List() from Item()
-		$items: List(size <= 5) from accumulate(
-			$i : Item(dominantStat == $stat) from $allItems,
-			collectToList($i)
-		)
-	then
-		modify ($p) {setRecomendedItems($items)};
-end

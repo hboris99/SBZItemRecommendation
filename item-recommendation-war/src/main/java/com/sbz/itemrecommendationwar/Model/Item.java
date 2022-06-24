@@ -72,7 +72,7 @@ public class Item {
 		this.name = string;
 	}
 
-	public boolean isMythic() {
+	public boolean getIsMythic() {
 		return isMythic;
 	}
 

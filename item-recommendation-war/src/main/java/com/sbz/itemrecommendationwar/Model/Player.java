@@ -1,7 +1,10 @@
 package com.sbz.itemrecommendationwar.Model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 
 
@@ -19,6 +22,13 @@ public class Player {
 	private List<List<Item>> drlEnemyItems;
 	public Player() {
 		
+	}
+	
+	public void filterList() {
+		Set<Item> s = new HashSet<>();
+		s.addAll(this.recommendedItems);
+		this.recommendedItems = new ArrayList<Item>();
+		this.recommendedItems.addAll(s);
 	}
 	
 	public List<List<Item>> getDrlEnemyItems() {
@@ -95,11 +105,13 @@ public class Player {
 	}
 
 	public void setRecommendedItems(List<Item> recommendedItems) {
+		this.recommendedItems = new ArrayList<>();
 		this.recommendedItems = recommendedItems;
 	}
 	
-	public void addRecommendedItem(Item item) {
-		this.recommendedItems.add(item);
+	
+	public void addRecommendedItem(Object item) {
+		this.recommendedItems.add((Item)item);
 	}
 	public PlayerClass getPlayerClass() {
 		return playerClass;

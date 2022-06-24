@@ -2,21 +2,46 @@ package rules
 import com.sbz.itemrecommendationwar.Model.Item;
 import com.sbz.itemrecommendationwar.Model.Player;
 import com.sbz.itemrecommendationwar.Model.PlayerClass;
+import com.sbz.itemrecommendationwar.Model.ItemBuyEvent;
 import java.util.List;
+ 
 
-rule "First purchase rule ADC"
-agenda-group "first-purchase"
+ 			
+rule "starterItemPurchase"
+agenda-group "purchase-starter"
 no-loop true
 	when 
-		$i: Item(playerClass == PlayerClass.MARKSMAN, $i.isMythic() == false)
-		$p: Player(recommendedItems.empty != true, playerClass == PlayerClass.MARKSMAN,  $p.itemIsNotRecommended($i.getName()) == true)
-		
+			$i : Item(specialPassive == SpecialPassive.NONE)
+			$p : Player($class : playerClass , isEnemy == false, recommendedItems contains $i) 
+			$list : List(size <= 3) from collect(Item(isMythic == true, playerClass == $class ))
 	then
-		
-		System.out.println($p.getStatToItemize() + " is the dominant stat");
-		System.out.println("Usao je u ovo glupo pravilo");
-		System.out.println($i.getName() + " is the recommended item");
- 		modify ($p) {addRecommendedItem($i)};
- end
+		modify	($p) {addPurchasedItem($i)};
+		modify ($p) {setRecommendedItems($list)};
+end		
  
+rule "Recommend next item"
+agenda-group "purchase"
+no-loop true
+	when
+		$allyPlayer : Player($stat : statToItemize, $name : name, isEnemy == false)
+		Number(intValue >= 2) from accumulate(
+		$e : ItemBuyEvent(allyName == $name)
+		over window:time(5m),
+		count($e)
+		)
+		$allItems: List() from collect(Item())
+		$items: List(size <= 5) from accumulate(
+			$i : Item(dominantStat == $stat) from $allItems,
+			collectList($i)
+		)
+	then
+		System.out.println($items);
+		System.out.println($allItems);
+		System.out.println($name);
+		System.out.println($stat);
+		for(Object b : $items){
+			System.out.println("U FORU SAM");
+			modify ($allyPlayer)  {addRecommendedItem(b)};
+		}
+end
 

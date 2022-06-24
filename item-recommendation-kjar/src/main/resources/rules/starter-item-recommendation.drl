@@ -26,4 +26,45 @@ agenda-group "starter"
 end
 
 
+rule "Starter item mage"
+agenda-group "starter"
 
+	when
+	    $p: Player( recommendedItems.empty == true, playerClass == PlayerClass.MAGE)
+	    $i: Item( name == "Dorans ring")
+	then
+		modify ($p) {addRecommendedItem($i)};
+		
+end
+
+rule "Starter item assasin"
+agenda-group "starter"
+
+	when
+	    $p: Player( recommendedItems.empty == true, playerClass == PlayerClass.ASSASIN)
+	    $i: Item( name == "Dorans sword")
+	then
+		modify ($p) {addRecommendedItem($i)};
+		
+end
+rule "Starter item support"
+agenda-group "starter"
+
+	when
+	    $p: Player( recommendedItems.empty == true, playerClass == PlayerClass.SUPPORT)
+	    $i: Item( name == "Spellthiefs edge")
+	then
+		modify ($p) {addRecommendedItem($i)};
+		
+end
+
+rule "Starter item fighter"
+agenda-group "starter"
+
+	when
+	    $p: Player( recommendedItems.empty == true, playerClass == PlayerClass.FIGHTER)
+	    $i: Item( name == "Dorans sword")
+	then
+		modify ($p) {addRecommendedItem($i)};
+		
+end

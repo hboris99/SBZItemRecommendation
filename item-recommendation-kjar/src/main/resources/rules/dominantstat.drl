@@ -3,6 +3,8 @@ import com.sbz.itemrecommendationwar.Model.Item;
 import com.sbz.itemrecommendationwar.Model.Player;
 import com.sbz.itemrecommendationwar.Model.PlayerClass;
 import java.util.Map;
+import java.util.List;
+
 global java.util.Map frequency;
 
 rule "Determine enemy items for player"
@@ -49,7 +51,6 @@ agenda-group "itemizing"
 		
 		System.out.println("Number of marksman items " + frequency);
 end
-
 rule "Suggest new items"
 agenda-group "itemizing"
 	when 

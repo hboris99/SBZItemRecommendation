@@ -6,7 +6,7 @@ import com.sbz.itemrecommendationwar.Model.PlayerClass;
 rule "Normal item recommendation start"
 agenda-group "normal"
 	when 
-		$i: Item(playerClass == PlayerClass.MARKSMAN, $i.isMythic() == false)
+		$i: Item(playerClass == PlayerClass.MARKSMAN, $i.isMythic == false)
 		$p: Player(recommendedItems.empty != true, playerClass == PlayerClass.MARKSMAN, $p.itemIsNotRecommended($i.getName()) == true)
 	then
 		

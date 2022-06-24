@@ -49,18 +49,8 @@ public class PlayerRepository {
 		enemyPlayers.add(p1);
 		enemyPlayers.add(p2);
 		
-		List<Item> p3Items = new ArrayList<>();
-		Player p3 = new Player(PlayerClass.MARKSMAN, p3Items,3000, 6400, new ArrayList<Item>(), false, "Perko", new PlayerStats(), "",new ArrayList<Item>(), new ArrayList< List<Item>>());
-		allyPlayers.add(p3);
 		
 		
-		List<Item> p4Items = new ArrayList<>();
-		Player p4 = new Player(PlayerClass.TANK, p4Items,450, 500, new ArrayList<Item>(), false, "Midbeast", new PlayerStats(), "",new ArrayList<Item>(), new ArrayList< List<Item>>());
-		enemyPlayers.add(p4);
-		
-		List<Item> p5Items = new ArrayList<>();
-		Player p5 = new Player(PlayerClass.MARKSMAN, p5Items,450, 500, new ArrayList<Item>(), false, "Teodor", new PlayerStats(), "",new ArrayList<Item>(), new ArrayList< List<Item>>());
-		allyPlayers.add(p5);
 		
 		
 		
@@ -73,12 +63,31 @@ public class PlayerRepository {
 		return allyPlayers;
 	}
 	
-	public Player findByName(String name) {
+	public Player findAllyByName(String name) {
 		for(Player p : allyPlayers) {
 			if(p.getName().equals(name))
 				return p;
 		}
 		
 		return null;
+	}
+	public Player findEnemyByName(String name) {
+		for(Player p : enemyPlayers) {
+			if(p.getName().equals(name))
+				return p;
+		}
+		
+		return null;
+	}
+
+
+	public void addAllyPlayer(Player p) {
+
+		this.allyPlayers.add(p);
+	}
+
+	public void addEnemyPlayer(Player p) {
+		this.enemyPlayers.add(p);
+		
 	}
 }
